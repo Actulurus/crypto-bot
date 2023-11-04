@@ -88,7 +88,7 @@ def is_green_no_lower_wick(candle):
 def is_red_no_upper_wick(candle):
     return candle[1] > candle[4] and abs(candle[2] - candle[1]) < 0.05
 
-def _is_doji(candle):
+def is_doji(candle):
     w1, w2 = 0, 0
     if candle[1] > candle[4]:
         w1 = candle[2] - candle[1]
@@ -98,10 +98,10 @@ def _is_doji(candle):
         w2 = candle[2] - candle[1]
     print(w1, w2)
     # checks whether body is smaller than the average wick size and whether the difference between the wicks is smaller than the size of the body
-    return abs(candle[1] - candle[4]) < (w1 + w2) / 2 and abs(w1 - w2) < abs(candle[1] - candle[4])
+    return abs(candle[1] - candle[4]) < (w1 + w2) / 2 and abs(w1 - w2) < abs(candle[1] - candle[4]) and w1 > 0 and w2 > 0
 ##### end
 
-def is_doji(candle):
+def _is_doji(candle):
     return abs(candle[1] - candle[4]) < 0.01
 
 while True:
