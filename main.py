@@ -1,3 +1,4 @@
+import os
 import ccxt
 import time
 import talib
@@ -107,6 +108,8 @@ while True:
     # Fetch the latest candlestick data
     candles = calculate_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=5))
     dont_take_action = False
+
+    os.system('clear')
 
     for i in range(len(candles)):
         is_green = is_green_no_lower_wick(candles[i])
