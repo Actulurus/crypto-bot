@@ -107,7 +107,7 @@ while True:
     # Fetch the latest candlestick data
     candles = calculate_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
     dont_take_action = False
-    print(candles)
+    print(candles[0], candles[1], candles[2], candles[3])
     for i in range(0, 2):
         is_green = is_green_no_lower_wick(candles[i])
         is_red = is_red_no_upper_wick(candles[i])
