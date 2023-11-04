@@ -108,7 +108,7 @@ while True:
     candles = calculate_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=5))
     dont_take_action = False
 
-    for i in candles:
+    for candle in range(len(candles)):
         is_green = is_green_no_lower_wick(candles[i])
         is_red = is_red_no_upper_wick(candles[i])
         doji = is_doji(candles[i])
