@@ -52,10 +52,16 @@ def get_candle_direction(candle):
         return 0
 
 def get_lower_wick(candle):
-    return candle[4] - candle[5]
+    if get_candle_direction(candle) > 0:
+        return candle[1] - candle[3]
+    elif get_candle_direction(candle) < 0:
+        return candle[4] - candle[3]
 
 def get_upper_wick(candle):
-    return candle[2] - candle[1]
+    if get_candle_direction(candle) > 0:
+        return candle[2] - candle[4]
+    elif get_candle_direction(candle) < 0:
+        return candle[2] - candle[1]
 
 def get_length_of_opposite_wick(candle):
     if get_candle_body(candle) > 0:
@@ -71,7 +77,7 @@ def is_doji(candle):
     avg_wick = (get_lower_wick(candle) - get_upper_wick(candle)) / 2
     are_wicks_long_enough = get_lower_wick(candle) > get_candle_size(candle) * 0.9 and get_upper_wick(candle) > get_candle_size(candle) * 0.9
     is_body_small = get_candle_size(candle) < avg_wick * 1.1
-    print("wicks long enough", are_wicks_long_enough, "body small", is_body_small)
+
     return are_wicks_long_enough and is_body_small 
 
 while True:
