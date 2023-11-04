@@ -101,7 +101,7 @@ def _is_doji(candle):
 ##### end
 
 def is_doji(candle):
-    return abs(candle[1] - candle[4]) < 0.05
+    return abs(candle[1] - candle[4]) < 0.01
 
 while True:
     # Fetch the latest candlestick data
