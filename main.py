@@ -108,29 +108,40 @@ while True:
     candles = calculate_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
     dont_take_action = False
 
-    is_green = is_green_no_lower_wick(candles[0])
-    is_red = is_red_no_upper_wick(candles[0])
+    for i in range(0, 2):
+        is_green = is_green_no_lower_wick(candles[i])
+        is_red = is_red_no_upper_wick(candles[i])
+        doji = is_doji(candles[i])
 
-    if not is_green and not is_red:
-        dont_take_action = True
-        print("1st candle is not green or red")
+        if doji:
+            print(i + 1, "is doji")
+        elif is_green:
+            print(i + 1, "is green")
+        elif is_red:
+            print(i + 1, "is red")
+        
+        print("------------------")
 
-    for i in range(0, 1):
-        green = is_green_no_lower_wick(candles[i])
-        red = is_red_no_upper_wick(candles[i])
+    # if not is_green and not is_red:
+    #     dont_take_action = True
+    #     print("1st candle is not green or red")
 
-        if not (green and is_green) and not (red and is_red):
-            dont_take_action = True
-            print(i + 1, "doesnt match other candle")
-        elif is_doji(candles[i]):
-            dont_take_action = True
-            print(i + 1, "must not be doji")
+    # for i in range(0, 1):
+    #     green = is_green_no_lower_wick(candles[i])
+    #     red = is_red_no_upper_wick(candles[i])
 
-    if not is_doji(candles[2]):
-        dont_take_action = True
-        print("3rd candle is not doji")
+    #     if not (green and is_green) and not (red and is_red):
+    #         dont_take_action = True
+    #         print(i + 1, "doesnt match other candle")
+    #     elif is_doji(candles[i]):
+    #         dont_take_action = True
+    #         print(i + 1, "must not be doji")
 
-    if not dont_take_action:
-        for i in range(1, 10): # Just to make it more visible
-            print("BUY" if is_green else "SELL")
+    # if not is_doji(candles[2]):
+    #     dont_take_action = True
+    #     print("3rd candle is not doji")
+
+    # if not dont_take_action:
+    #     for i in range(1, 10): # Just to make it more visible
+    #         print("BUY" if is_green else "SELL")
     
