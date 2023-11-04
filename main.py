@@ -69,10 +69,10 @@ def is_opposite_wick_short_enough(candle):
 
 def is_doji(candle):
     avg_wick = (get_lower_wick(candle) - get_upper_wick(candle)) / 2
-    are_wicks_similar = abs(get_lower_wick(candle) - get_upper_wick(candle)) < avg_wick * 2 * 0.5
+    are_wicks_long_enough = get_lower_wick(candle) > get_candle_size(candle) * 0.9 and get_upper_wick(candle) > get_candle_size(candle) * 0.9
     is_body_small = get_candle_size(candle) < avg_wick * 1.1
-    print("wicks similar", are_wicks_similar, "body small", is_body_small)
-    return are_wicks_similar and is_body_small 
+    print("wicks long enough", are_wicks_long_enough, "body small", is_body_small)
+    return are_wicks_long_enough and is_body_small 
 
 while True:
     # Fetch the latest candlestick data
