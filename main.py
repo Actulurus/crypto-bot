@@ -22,18 +22,20 @@ last_candle = None
 
 print("Running...")
 
-def get_heikin_ashi(raw_candles):
-    # Extract the OHLC data from the raw candles
-    open_prices = np.array([candle[1] for candle in raw_candles], dtype=float)
-    high_prices = np.array([candle[2] for candle in raw_candles], dtype=float)
-    low_prices = np.array([candle[3] for candle in raw_candles], dtype=float)
-    close_prices = np.array([candle[4] for candle in raw_candles], dtype=float)
+def calculate_heikin_ashi(candles):
+    heikin_ashi_candles = []
+    for i in range(len(candles)):
+        if i == 0:
+            ha_close = candles[i][4]
+            ha_open = (candles[i][1] + candles[i][4]) / 2.0
+        else:
+            ha_close = (candles[i][1] + candles[i][2] + candles[i][3] + candles[i][4]) / 4.0
+            ha_open = (heikin_ashi_candles[i - 1][1] + heikin_ashi_candles[i - 1][4]) / 2.0
 
-    # Calculate Heikin-Ashi candles using TA-Lib
-    heikin_ashi = talib.CDLHEIKINASHI(open_prices, high_prices, low_prices, close_prices)
+        ha_high = max(candles[i][2], ha_open, ha_close)
+        ha_low = min(candles[i][3], ha_open, ha_close)
 
-    # Create a list of Heikin-Ashi candles
-    heikin_ashi_candles = list(zip(*[raw_candles, heikin_ashi]))
+        heikin_ashi_candles.append([candles[i][0], ha_open, ha_high, ha_low, ha_close, candles[i][5]])
 
     return heikin_ashi_candles
 
@@ -74,7 +76,7 @@ def is_doji(candle):
 
 while True:
     # Fetch the latest candlestick data
-    candles = get_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
+    candles = calculate_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
 
     direction = get_candle_direction(candles[0])
     dont_take_action = False
