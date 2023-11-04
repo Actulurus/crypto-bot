@@ -74,7 +74,7 @@ def is_doji(candle):
 
 while True:
     # Fetch the latest candlestick data
-    candles = get_hk(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
+    candles = get_heikin_ashi(exchange.fetch_ohlcv(symbol, timeframe=timeframe, limit=3))
 
     direction = get_candle_direction(candles[0])
     dont_take_action = False
