@@ -1,9 +1,12 @@
 import ccxt
 import pandas as pd
+import json
 
-# Replace these with your own Crypto.com API key and secret
-# api_key = 'PvUo7vMTTBJcTmZJQBwctu'
-# api_secret = 'Z8vMidbeAxr8hZyy7FPkCN'
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+api_key = config['api_key']
+api_secret = config['api_secret']
 
 exchange = ccxt.cryptocom({
     'apiKey': api_key,
