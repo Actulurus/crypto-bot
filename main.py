@@ -1,6 +1,7 @@
 import ccxt
 import pandas as pd
 import json
+import time
 
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
