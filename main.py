@@ -3,17 +3,18 @@ import ccxt
 import time
 import talib
 import numpy as np
+from datetime import datetime
 
 # Replace these with your own Crypto.com API key and secret
-api_key = 'PvUo7vMTTBJcTmZJQBwctu'
-api_secret = 'Z8vMidbeAxr8hZyy7FPkCN'
+# api_key = 'PvUo7vMTTBJcTmZJQBwctu'
+# api_secret = 'Z8vMidbeAxr8hZyy7FPkCN'
 
 # Create an instance of the Crypto.com exchange
-exchange = ccxt.cryptocom()
+exchange = ccxt.binance()
 
 # Set your API credentials
-exchange.apiKey = api_key
-exchange.secret = api_secret
+# exchange.apiKey = api_key
+# exchange.secret = api_secret
 
 # Define the trading pair and timeframe
 symbol = 'SOL/USD'  # Replace with your desired trading pair
@@ -32,6 +33,9 @@ def check_heikin_ashi_strategy(candles):
 
     # Get the last three candles
     last_three_candles = ha_candles[-3:]
+    
+    print_candle_time(last_three_candles[0])
+    print(is_doji(last_three_candles[0]))
 
     # Check for Doji candle
     if is_doji(last_three_candles[0]):
@@ -62,10 +66,29 @@ def get_heikin_ashi(candles):
     return heikin_ashi_candles
 
 def is_doji(candle):
-    return abs(candle[1] - candle[4]) <= (candle[2] - candle[3]) * 0.1
+    open_price, high_price, low_price, close_price = candle[1:5]
+    
+    body_size = abs(open_price - close_price)
+    wicks_size = high_price - max(open_price, close_price, key=lambda x: abs(x - high_price))
+    
+    return body_size < wicks_size and wicks_size > 0
 
 def is_red_doji(candle):
     return candle[4] < candle[1] and is_doji(candle)
+
+def print_candle_time(candle):
+    unix_timestamp = candle[0] / 1000
+
+    try:
+        # Convert the Unix timestamp to a datetime object
+        dt_object = datetime.fromtimestamp(unix_timestamp)
+
+        # Format the datetime as a string in a human-readable format
+        human_readable_time = dt_object.strftime("%Y-%m-%d %H:%M:%S")
+
+        print(f"On {human_readable_time}")
+    except Exception as e:
+        print(f"Error: {e}")
 
 # Main loop
 while True:
@@ -77,5 +100,5 @@ while True:
     if signal:
         print(f"Signal: {signal}")
     
-    time.sleep(5)
+    time.sleep(1)
     
