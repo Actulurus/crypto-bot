@@ -46,6 +46,9 @@ timeframe = '1m'
 short_window = 50
 long_window = 100
 
-df = fetch_ohlcv(symbol, timeframe)
-df = calculate_moving_averages(df, short_window, long_window)
-execute_orders(df)
+while True:
+    df = fetch_ohlcv(symbol, timeframe)
+    df = calculate_moving_averages(df, short_window, long_window)
+    execute_orders(df)
+
+    time.sleep(1)
