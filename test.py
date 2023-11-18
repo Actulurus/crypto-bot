@@ -8,6 +8,11 @@ import os
 
 from colorama import init, Fore, Back, Style
 
+powerplan_script_exists = os.path.isfile("powerplan.py")
+
+if powerplan_script_exists:
+    from powerplan import allowsleep, forbidsleep
+
 TEST_DURATION = int(sys.argv[1]) if len(sys.argv) > 1 else 60 * 30
 
 def run_script(script_path, args):
@@ -18,6 +23,9 @@ if __name__ == "__main__":
     print(Fore.YELLOW + "Starting test mode with duration of " + str(TEST_DURATION) + " seconds.")
     print("Started on " + str(time.time()) + ".")
     print(Fore.WHITE + "---------------------------------")
+
+    if powerplan_script_exists:
+        forbidsleep()
 
     # clear output folder (all files except .gitkeep)
     for file in os.listdir("TestOutput"):
@@ -46,3 +54,6 @@ if __name__ == "__main__":
 
     print(Fore.GREEN + "Log files saved to /TestOutput/")
     print(Fore.WHITE + "---------------------------------")
+
+    if powerplan_script_exists:
+        allowsleep()

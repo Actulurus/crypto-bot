@@ -3,3 +3,5 @@
 
 TestOutput/*
 !TestOutput/.gitkeep
+
+powerplan.py
