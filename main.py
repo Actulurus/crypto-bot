@@ -11,6 +11,7 @@ try:
         config = json.load(config_file)
 except FileNotFoundError:
     print(Fore.YELLOW + "config.json not found - created one for you. Please fill it out and restart the program.")
+    print(Fore.WHITE)
 
     with open('config.json', 'w') as config_file:
         config = {
@@ -44,6 +45,9 @@ long_window = int(arg2 or config['long_window'])
 
 api_key = config['api_key']
 api_secret = config['api_secret']
+
+if " " in api_key or " " in api_secret:
+    exit()
 
 exchange = ccxt.cryptocom({
     'apiKey': api_key,
