@@ -8,6 +8,11 @@ from colorama import Fore, Back, Style
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
+symbol = config['symbol']
+timeframe = config['timeframe']
+short_window = config['short_window']
+long_window = config['long_window']
+
 api_key = config['api_key']
 api_secret = config['api_secret']
 
@@ -87,12 +92,6 @@ def execute_orders(df):
             in_position = False
 
     order(action)
-
-
-symbol = 'SOL/USD'
-timeframe = '1m'
-short_window = 3
-long_window = 6
 
 while True:
     try:
