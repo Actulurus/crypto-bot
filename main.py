@@ -16,7 +16,7 @@ except FileNotFoundError:
     with open('config.json', 'w') as config_file:
         config = {
             "symbol": "BTC/USDT",
-            "timeframe": "1m",
+            "timeframe": "5m",
             "short_window": 10,
             "long_window": 30,
             "api_key": "Your api key here",
@@ -145,7 +145,7 @@ while True:
             with open('TestOutput/log_' + str(short_window) + '_' + str(long_window) + '_' + str(runtime_start) + '.txt', 'w') as log_file:
                 log_file.write("Short window: " + str(short_window) + "\n")
                 log_file.write("Long window: " + str(long_window) + "\n")
-                log_file.write("Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)\n")
+                log_file.write("Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str(abs(get_total_balance() - initial_balance) / initial_balance * 100) + "%)\n")
                 log_file.write("Trades completed: " + str(trades_completed) + "\n")
                 log_file.write("Final balance: " + str(get_total_balance()) + "\n")
 
