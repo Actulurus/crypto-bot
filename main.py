@@ -61,6 +61,8 @@ balance_crypto = 0
 
 initial_balance = balance_usd
 
+trades_completed = 0
+
 print(Fore.YELLOW + "------------------------")
 if IS_TEST_MODE:
     print("Running in TEST mode...")
@@ -73,6 +75,7 @@ def order(action):
     global balance_usd
     global balance_crypto
     global initial_balance
+    global trades_completed
 
     if action != last_action:
         last_action = action
@@ -93,6 +96,8 @@ def order(action):
             
             balance_usd = balance_crypto * df['close'].iloc[-1]
             balance_crypto = 0
+
+            trades_completed += 1
 
             print(Fore.RED + "-----------------[SELL]-----------------")
             print(Fore.BLUE + "Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)")
@@ -137,6 +142,8 @@ while True:
                 log_file.write("Short window: " + str(short_window) + "\n")
                 log_file.write("Long window: " + str(long_window) + "\n")
                 log_file.write("Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)")
+                log_file.write("Trades completed: " + str(trades_completed) + "\n")
+                log_file.write("Final balance: " + str(get_total_balance()) + "\n")
 
             exit()
     
