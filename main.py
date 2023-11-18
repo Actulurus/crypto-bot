@@ -30,26 +30,30 @@ def calculate_moving_averages(df, short_window, long_window):
 
 def execute_orders(df):
     in_position = False
+    action = "None"
 
     for index, row in df.iterrows():
         if row['short_mavg'] > row['long_mavg'] and not in_position:
-            print("Buy")
+            action = "Buy"
             # exchange.create_market_buy_order('BTC/USDT', amount)
             in_position = True
         elif row['short_mavg'] < row['long_mavg'] and in_position:
-            print("Sell")
+            action = "Sell"
             # exchange.create_market_sell_order('BTC/USDT', amount)
             in_position = False
+
+    print(action)
 
 
 symbol = 'SOL/USD'
 timeframe = '1m'
-short_window = 50
-long_window = 100
+short_window = 3
+long_window = 6
 
 while True:
     df = fetch_ohlcv(symbol, timeframe)
     df = calculate_moving_averages(df, short_window, long_window)
+
     execute_orders(df)
 
     time.sleep(1)
