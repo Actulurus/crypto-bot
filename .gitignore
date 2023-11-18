@@ -1,2 +1,5 @@
 /config.json
 /ta-lib
+
+/TestOuput/*
+!/TestOutput/
