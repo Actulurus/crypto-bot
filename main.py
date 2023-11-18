@@ -165,4 +165,4 @@ while True:
     except Exception as e:
         print(Fore.YELLOW + "Error: " + str(e))
 
-    time.sleep(1)
+    time.sleep(2)
