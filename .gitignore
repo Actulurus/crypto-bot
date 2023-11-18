@@ -1,5 +1,5 @@
 /config.json
 /ta-lib
 
-/TestOutput/*
-!/TestOutput/
+TestOutput/*
+!TestOutput/.gitkeep
