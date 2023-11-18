@@ -3,6 +3,8 @@
 import multiprocessing
 import subprocess
 
+from colorama import init, Fore, Back, Style
+
 TEST_DURATION = 15 #60 * 60 * 8 # In seconds
 
 def run_script(script_path, args):
@@ -29,3 +31,6 @@ if __name__ == "__main__":
 
     with multiprocessing.Pool() as pool:
         pool.starmap(run_script, [(script_to_run, args) for args in script_arguments_list])
+
+    print(Fore.GREEN + "Log files saved to /TestOutput/")
+    print(Fore.WHITE + "---------------------------------")
