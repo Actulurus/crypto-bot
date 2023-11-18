@@ -141,7 +141,7 @@ while True:
             with open('TestOutput/log_' + str(short_window) + '_' + str(long_window) + '_' + str(runtime_start) + '.txt', 'w') as log_file:
                 log_file.write("Short window: " + str(short_window) + "\n")
                 log_file.write("Long window: " + str(long_window) + "\n")
-                log_file.write("Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)")
+                log_file.write("Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)\n")
                 log_file.write("Trades completed: " + str(trades_completed) + "\n")
                 log_file.write("Final balance: " + str(get_total_balance()) + "\n")
 
