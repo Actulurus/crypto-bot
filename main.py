@@ -3,6 +3,8 @@ import pandas as pd
 import json
 import time
 
+from colorama import Fore, Back, Style
+
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
 
@@ -15,7 +17,49 @@ exchange = ccxt.cryptocom({
     'enableRateLimit': True,
 })
 
-print("Running")
+last_action = "None"
+last_balance = 0
+
+balance_usd = 100
+balance_crypto = 0
+
+initial_balance = balance_usd
+
+print(Fore.YELLOW + "------------------------")
+print("Running...")
+print("------------------------")
+
+def order(action):
+    global last_action
+    global balance_usd
+    global balance_crypto
+    global initial_balance
+
+    if action != last_action:
+        last_action = action
+
+        if action == "Buy":
+            if balance_usd == 0:
+                return
+            
+            initial_balance = get_total_balance()
+
+            balance_crypto = balance_usd / df['close'].iloc[-1]
+            balance_usd = 0
+
+            print(Fore.GREEN + "-----------------[BUY]-----------------")
+        elif action == "Sell":
+            if balance_crypto == 0:
+                return
+            
+            balance_usd = balance_crypto * df['close'].iloc[-1]
+            balance_crypto = 0
+
+            print(Fore.RED + "-----------------[SELL]-----------------")
+            print(Fore.BLUE + "Profit: " + str(get_total_balance() - initial_balance) + " USD (" + str((get_total_balance() - initial_balance) / initial_balance * 100) + "%)")
+
+def get_total_balance():
+    return balance_usd + balance_crypto * df['close'].iloc[-1]
 
 def fetch_ohlcv(symbol, timeframe):
     ohlcv = exchange.fetch_ohlcv(symbol, timeframe)
@@ -42,7 +86,7 @@ def execute_orders(df):
             # exchange.create_market_sell_order('BTC/USDT', amount)
             in_position = False
 
-    print(action)
+    order(action)
 
 
 symbol = 'SOL/USD'
@@ -51,9 +95,18 @@ short_window = 3
 long_window = 6
 
 while True:
-    df = fetch_ohlcv(symbol, timeframe)
-    df = calculate_moving_averages(df, short_window, long_window)
+    try:
+        df = fetch_ohlcv(symbol, timeframe)
+        df = calculate_moving_averages(df, short_window, long_window)
 
-    execute_orders(df)
+        execute_orders(df)
+
+        current = get_total_balance()
+
+        if current != last_balance:
+            last_balance = current
+            print(Fore.WHITE + "Current balance: " + str(get_total_balance()))
+    except Exception as e:
+        print(Fore.YELLOW + "Error: " + str(e))
 
     time.sleep(1)
