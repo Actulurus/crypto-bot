@@ -134,7 +134,7 @@ def execute_orders(df):
             action = "Sell"
             # exchange.create_market_sell_order('BTC/USDT', amount)
             in_position = False
-            
+    
     order(action)
 
 while True:
