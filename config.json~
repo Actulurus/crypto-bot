@@ -1,0 +1,8 @@
+{
+    "api_key": "PvUo7vMTTBJcTmZJQBwctu",
+    "api_secret": "Z8vMidbeAxr8hZyy7FPkCN",
+    "symbol": "BTC/USD",
+    "timeframe": "5m",
+    "short_window": 16,
+    "long_window": 60
+}

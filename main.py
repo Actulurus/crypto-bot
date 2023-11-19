@@ -19,6 +19,7 @@ except FileNotFoundError:
             "timeframe": "5m",
             "short_window": 10,
             "long_window": 30,
+            "initial_balance": 100,
             "api_key": "Your api key here",
             "api_secret": "Your api secret here"
         }
@@ -60,7 +61,7 @@ runtime_start = time.time()
 last_action = "None"
 last_balance = 0
 
-balance_usd = 100
+balance_usd = config["initial_balance"]
 balance_crypto = 0
 
 initial_balance = balance_usd
@@ -125,15 +126,15 @@ def execute_orders(df):
     action = "None"
 
     for index, row in df.iterrows():
-        if row['short_mavg'] > row['long_mavg'] and not in_position:
+        if row['short_mavg'] > row['long_mavg']:
             action = "Buy"
             # exchange.create_market_buy_order('BTC/USDT', amount)
             in_position = True
-        elif row['short_mavg'] < row['long_mavg'] and in_position:
+        elif row['short_mavg'] < row['long_mavg']:
             action = "Sell"
             # exchange.create_market_sell_order('BTC/USDT', amount)
             in_position = False
-
+            
     order(action)
 
 while True:
