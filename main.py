@@ -110,7 +110,7 @@ def get_total_balance():
     return balance_usd + balance_crypto * df['close'].iloc[-1]
 
 def fetch_ohlcv(symbol, timeframe):
-    ohlcv = exchange.fetch_ohlcv(symbol, timeframe)
+    ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=60)
     df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
     return df
